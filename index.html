@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title> Particle Simulation </title>
+<style>
+* { padding: 0; margin: 0; }
+canvas { background: #eee; display: block; margin: 0 auto; }
+</style>
+</head>
+<body> 
+	<canvas id="particleCanvas" width="960" height="640"></canvas>
+	<center>
+	<input id="file" type = "file"/>
+	<input id="read" type="button" value="read"/>
+	</center>
+	<!-- Reads text, make it toggleable later -->
+	<div id="text"></div>
+	<output id="list"></output>
+	<script src ="./ParticleSimulation.js"></script>
+	<p id="err"></p>
+</body>
+</html>
