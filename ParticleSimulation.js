@@ -1,13 +1,93 @@
+//Global Variables
+var dt = 0.1;
+var particles;
+var arr;
+var scale = 1;
+//Array for 
+
+//Class for Particle as well as various helper methods
 function Particle(rx, ry, vx, vy, radius, mass, color){
+	var canvas = document.getElementById('particleCanvas');
 	this.rx = rx;
 	this.ry = ry;
 	this.vx = vx;
 	this.vy = vy;
 	this.radius = radius;
 	this.mass = mass;
+	this.color = "#0095DD";
+
+	//Draws particle in new position
+	this.drawParticle=function(ctx){
+		var centerX = this.rx*scale;
+		var centerY = this.ry*scale;
+		var radius = this.radius*scale;
+		ctx.beginPath();
+		ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+		ctx.fillStyle = this.color;
+		ctx.fill();
+		ctx.closePath();
+	}
+
+	this.move = function(){
+		this.rx += this.vx*dt;
+		this.ry += this.vy*dt;
+	}
+	//Predicts when a particle would hit another(if it would)
+	this.timeOfHit = function(that){
+		if(this == that) return Infinity;
+		var dx = that.rx - this.rx;
+		var dy = that.ry - this.ry;
+		var dvx = that.vx - this.vx;
+		var dvy = that.vy - this.vy;
+		var dvdr = dx*dvx + dy*dvy;
+		if(dvdr > 0) return Infinity;
+		var dvdv = dvx*dvx + dvy*dvy;
+		var drdr = dx*dx + dy*dy;
+		var sig = this.radius + that.radius;
+		//this checks if there are overlapping particles
+		var d = (dvdr*dvdr) - dvdv * (drdr - sig*sig);
+		if (d < 0) return Infinity;
+		return -(dvdr + Math.sqrt(d))/dvdv;
+	}
+	//Calculates, if a ball continues straight, when it would collide with the wall
+	this.horizontalWallCollisionTime = function(){
+		if(this.vx > 0){
+			return ((canvas.height - this.rx - this.radius)/this.vx); 
+		}
+		else if(this.vx < 0){
+			return ((radius - this.rx)/this.vx); 
+		}
+		else{
+			return Infinity;
+		}
+	}
+	this.verticalWallCollisionTime = function(){
+		if(this.vy > 0){
+			return ((canvas.width - this.ry - this.radius)/this.vy); 
+		}
+		else if(this.vy < 0){
+			return ((this.radius - this.ry)/this.vy); 
+		}
+		else{
+			return Infinity;
+		}
+	}
+	
+	//If a particle collides with a ball, its velocity reverses
+	this.horizantalWallCollision = function(){
+		this.vx = -this.vx;
+	}
+	this.verticalWallCollision = function(){
+		this.vy = -this.vy;
+	}
+	this.kineticEnergy = function(){
+		return .5 * mass * (this.vx * this.vx + this.yv * this.vy);
+	}
 }
 
-//Handles file reading
+//function populateParticles(arr, 
+
+//Handles file reading, creates array which holds all values for particles
 document.getElementById("read").addEventListener("click", function(){
 	var input = document.getElementById("file");
 	if(input.files && input.files[0]){
@@ -24,6 +104,7 @@ document.getElementById("read").addEventListener("click", function(){
 		reader.readAsText(input.files[0]);
 	}
 });
+
 function handleArray(arr){
 	var text = "";
 	for (var i = 0; i < arr.length; i++){
@@ -37,7 +118,11 @@ function handleArray(arr){
 	document.getElementById("text").innerHTML = text;
 }
 
-
+//Functions for drawing the particles
+//
+function drawParticle(particle, ctx){
+	
+}
 function init(){
 	try{
 		//loadEventListeners();
@@ -53,9 +138,9 @@ function draw(){
 	var canvas = document.getElementById("particleCanvas");
 	var ctx = canvas.getContext("2d");
     //Clear Canvas for new drawings
-	var test = new Particle(100,100,0,0,4,4,"blue");
-
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	var test = new Particle(0,0,0,0,10,4,"blue");
+	test.drawParticle(ctx);
+	//ctx.clearRect(0, 0, canvas.width, canvas.height);
 	
 }
 window.onload = function(){
