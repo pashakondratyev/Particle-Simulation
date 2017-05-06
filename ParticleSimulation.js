@@ -5,8 +5,13 @@ var arr;
 var scale = 1;
 //Array for 
 
-//Class for Particle as well as various helper methods
-function Particle(rx, ry, vx, vy, radius, mass, color){
+/*
+ * Class for the particle object
+ * also contains various methods 
+ * for the particle
+ * TODO: add color variations
+ */
+function Particle(rx, ry, vx, vy, radius, mass){
 	var canvas = document.getElementById('particleCanvas');
 	this.rx = rx;
 	this.ry = ry;
@@ -85,20 +90,38 @@ function Particle(rx, ry, vx, vy, radius, mass, color){
 	}
 }
 
-//function populateParticles(arr, 
+/**
+ * Takes the  array from the parsed file
+ * and populates a new array with particle objects
+ */
+function populateParticles(arr){
+	var canvas = document.getElementById("particleCanvas");
+	var ctx = canvas.getContext("2d");
+	var height = canvas.height;
+	var width = canvas.width;
+	particles = [];
+	console.log(arr);
+	for(var i=0; i < arr.length; i++){
+		//Adds all particles to 
+		particles[i] = new Particle( arr[i][1]*width,arr[i][2]*height,arr[i][3]*width, arr[i][4]*height,arr[i][5]*width,arr[i][6]);
+		particles[i].drawParticle(ctx);
+		console.log("Drawn");
+	}
+}
 
 //Handles file reading, creates array which holds all values for particles
 document.getElementById("read").addEventListener("click", function(){
 	var input = document.getElementById("file");
+	arr = [];
 	if(input.files && input.files[0]){
 		var reader = new FileReader();
 		reader.onload = function(){
-			arr = [];
 			var rows = reader.result.split('\n');
 			for(var i = 0; i < rows.length; i++){
 				//Splits each line on white space
 				arr[i] = rows[i].split(/\s+/);
 			}
+			populateParticles(arr);
 			handleArray(arr);
 		}
 		reader.readAsText(input.files[0]);
@@ -119,10 +142,12 @@ function handleArray(arr){
 }
 
 //Functions for drawing the particles
-//
+/*
 function drawParticle(particle, ctx){
 	
 }
+*/
+
 function init(){
 	try{
 		//loadEventListeners();
@@ -138,11 +163,11 @@ function draw(){
 	var canvas = document.getElementById("particleCanvas");
 	var ctx = canvas.getContext("2d");
     //Clear Canvas for new drawings
-	var test = new Particle(0,0,0,0,10,4,"blue");
-	test.drawParticle(ctx);
+//	var test = new Particle(0,0,0,0,10,4,"blue");
+//	test.drawParticle(ctx);
 	//ctx.clearRect(0, 0, canvas.width, canvas.height);
-	
 }
+
 window.onload = function(){
 	init();
 }
