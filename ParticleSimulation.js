@@ -107,6 +107,7 @@ function populateParticles(arr){
 		particles[i].drawParticle(ctx);
 		console.log("Drawn");
 	}
+	updateParticles(particles, canvas, ctx);
 }
 
 //Handles file reading, creates array which holds all values for particles
@@ -159,6 +160,21 @@ function init(){
 	}
 }
 
+/**
+ * Takes an array of particles and updates their locations while they move
+ */
+
+function updateParticles(particles, canvas, ctx){
+	setInterval(function() {
+		//Clears Canvas
+		ctx.clearRect(0,0,canvas.width, canvas.height);
+		for(var i=0; i < particles.length; i++){
+			particles[i].move();
+			particles[i].drawParticle(ctx);
+			console.log("Drawn");
+		}
+	}, 5);
+}
 function draw(){
 	var canvas = document.getElementById("particleCanvas");
 	var ctx = canvas.getContext("2d");
