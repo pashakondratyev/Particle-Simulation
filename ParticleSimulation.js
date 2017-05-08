@@ -91,6 +91,34 @@ function Particle(rx, ry, vx, vy, radius, mass){
 }
 
 /**
+ *
+ */
+function PriorityQueue(){
+	this.length = 0;
+	this.pq = [];
+
+	this.isEmpty = function(){
+		return this.length == 0;
+	}
+	
+	this.size = function(){
+		return this.length;
+	}
+
+	this.min = function(){
+		if(this.length = 0){
+			return undefined;
+		}
+		else{
+			return this.pq[0];
+		}
+	}
+
+
+	
+
+}
+/**
  * Takes the  array from the parsed file
  * and populates a new array with particle objects
  */
