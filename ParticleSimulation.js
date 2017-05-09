@@ -96,15 +96,12 @@ function Particle(rx, ry, vx, vy, radius, mass){
 function PriorityQueue(){
 	this.length = 0;
 	this.pq = [];
-
 	this.isEmpty = function(){
 		return this.length == 0;
 	}
-	
 	this.size = function(){
 		return this.length;
 	}
-
 	this.min = function(){
 		if(this.length = 0){
 			return undefined;
@@ -113,10 +110,50 @@ function PriorityQueue(){
 			return this.pq[0];
 		}
 	}
-
-
-	
-
+	//Helper functions used for function to maintain min-heap property
+	//Returns position of parent node of i
+	this._parent = function(i){
+		return this.pq[i >> 1];
+	}
+	//Returns position of left node from i
+	this._left = function(i){
+		return 2*i;
+	}
+	//Returns position of right node from i
+	this._right = function(i){
+		return 2*i +1;
+	}
+	//Makes the element located at i, float down to the bottom for removal
+	this._bubbleDown = function(i){
+		var left = this._left(i);
+		var right = this._right(i);
+		var smallest;
+		if(left <= this.size() && this.pq[left] < this.pq[i]){
+			smallest = left;
+		}
+		else{
+			smallest = i;
+		}
+		if(right <= this.size() && this.pq[right] < this.pq[i]){
+			smallest = right;
+		}
+		if(smallest != i){
+			var temp = this.pq[smallest];
+			this.pq[smallest] = this.pq[i];
+			this.pq[i] = temp;
+			this._bubbleDown(smallest);
+		}
+	}
+	//Extracts the minimum element and maintains min-heap property
+	this.deleteMin = function(){
+		if(this.size() < 1){
+			return null;
+		}
+		var min = this.pq[0];
+		this.pq[0] = this.pq[this.size()];
+		this._bubbleDown(0);
+		return min;
+	}
 }
 /**
  * Takes the  array from the parsed file
