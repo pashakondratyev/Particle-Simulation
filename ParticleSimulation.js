@@ -144,6 +144,18 @@ function PriorityQueue(){
 			this._bubbleDown(smallest);
 		}
 	}
+	this._bubbleUp = function(i,time){
+		if(time < this.pq[i]){
+			//Error
+		}
+		this.pq[i] = time;
+		while(i > 1 && this.pq[this._parent(i)] < this.pq[i]{
+			var temp = this.pq[this._parent(i)];
+			this.pq[this._parent(i)] = this.pq[i];
+			this.pq[i] = temp;
+			i = this._parent(i);
+		}
+	}
 	//Extracts the minimum element and maintains min-heap property
 	this.deleteMin = function(){
 		if(this.size() < 1){
@@ -154,7 +166,13 @@ function PriorityQueue(){
 		this._bubbleDown(0);
 		return min;
 	}
+	this.insert = function(time){
+		this.size ++;
+		this.pq[this.size] = Number.NEGATIVE_INFINITY;
+		this._bubbleUp(this.size, time);
+	}
 }
+
 /**
  * Takes the  array from the parsed file
  * and populates a new array with particle objects
