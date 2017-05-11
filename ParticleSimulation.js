@@ -104,7 +104,7 @@ function PriorityQueue(){
 	}
 	this.min = function(){
 		if(this.length = 0){
-			return undefined;
+			return null;
 		}
 		else{
 			return this.pq[0];
@@ -149,7 +149,7 @@ function PriorityQueue(){
 			//Error
 		}
 		this.pq[i] = time;
-		while(i > 1 && this.pq[this._parent(i)] < this.pq[i]{
+		while(i > 1 && this.pq[this._parent(i)] < this.pq[i]){
 			var temp = this.pq[this._parent(i)];
 			this.pq[this._parent(i)] = this.pq[i];
 			this.pq[i] = temp;
@@ -225,16 +225,8 @@ function handleArray(arr){
 	document.getElementById("text").innerHTML = text;
 }
 
-//Functions for drawing the particles
-/*
-function drawParticle(particle, ctx){
-	
-}
-*/
-
 function init(){
 	try{
-		//loadEventListeners();
 		window.requestAnimationFrame(draw);
 	}
 	catch(err){
@@ -245,12 +237,27 @@ function init(){
 
 /**
  * Takes an array of particles and updates their locations while they move
+ * This is the "heart" of the program
  */
-
 function updateParticles(particles, canvas, ctx){
+	var minPQ = new PriorityQueue();
+	var participated = [];
+ 	//initialize priority queue, need to figure out how
+	//to store events
+	while(!minPQ.isEmpty()){
+		var min = minPQ.deleteMin();
+		//check if event is still valid
+		if(/*eventNotValid*/){
+		}
+		if(/*wallCollision*/){
+		}
+		if(/*particleCollision*/){
+		}
+	}
 	setInterval(function() {
 		//Clears Canvas
 		ctx.clearRect(0,0,canvas.width, canvas.height);
+		
 		for(var i=0; i < particles.length; i++){
 			particles[i].move();
 			particles[i].drawParticle(ctx);
@@ -258,6 +265,7 @@ function updateParticles(particles, canvas, ctx){
 		}
 	}, 5);
 }
+
 function draw(){
 	var canvas = document.getElementById("particleCanvas");
 	var ctx = canvas.getContext("2d");
