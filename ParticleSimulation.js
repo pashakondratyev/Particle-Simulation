@@ -20,7 +20,6 @@ function Particle(rx, ry, vx, vy, radius, mass){
 	this.radius = radius;
 	this.mass = mass;
 	this.color = "#0095DD";
-
 	//Draws particle in new position
 	this.drawParticle=function(ctx){
 		var centerX = this.rx*scale;
@@ -32,7 +31,6 @@ function Particle(rx, ry, vx, vy, radius, mass){
 		ctx.fill();
 		ctx.closePath();
 	}
-
 	this.move = function(){
 		this.rx += this.vx*dt;
 		this.ry += this.vy*dt;
@@ -87,6 +85,26 @@ function Particle(rx, ry, vx, vy, radius, mass){
 	}
 	this.kineticEnergy = function(){
 		return .5 * mass * (this.vx * this.vx + this.yv * this.vy);
+	}
+}
+
+/*
+ *Event object to be able to store events in the priority queue
+ */
+function Event(particleA, particleB, time){
+	this.time = time;
+	this.partA = particleA;
+	this.partB = particleB;	
+	this.getTime = function(){
+		return this.time;
+	}
+	this.getEventType(){
+		//figure out how to return this value
+		//1= horizontal wall
+		//2=vertical wall
+		//if partA= partB 
+		//3= two particles
+		//4 = nolonger valid
 	}
 }
 
