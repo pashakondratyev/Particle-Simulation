@@ -90,6 +90,8 @@ function Particle(rx, ry, vx, vy, radius, mass){
 
 /*
  *Event object to be able to store events in the priority queue
+ *If hits a horizontal wall argument is Event(null, particle, time)
+ *If hits a vertical Wall argument is Event(particle, null, time)
  */
 function Event(particleA, particleB, time){
 	this.time = time;
@@ -98,13 +100,38 @@ function Event(particleA, particleB, time){
 	this.getTime = function(){
 		return this.time;
 	}
-	this.getEventType(){
-		//figure out how to return this value
-		//1= horizontal wall
-		//2=vertical wall
-		//if partA= partB 
-		//3= two particles
-		//4 = nolonger valid
+	//Returns particles involved in an array
+	this.getParticles = function(){
+		if(this.partA == null){
+			return [this.partB];
+		}
+		else if(this.partB == null){
+			return [this.partA];
+		}
+		else{
+			return [this.partA, this.partB];
+		}
+	}
+	/*
+	 * Returns type of event
+	 * returns 0 if A & B collide
+	 * returns 1 if the particle hits a horizontal wall
+	 * returns 2 if the particle hits a verticl wall
+	 * returns 3 if the even is no longer valid
+	 */
+	this.getEventType = function(){
+		if(this.partA == null && this.partB == null){
+			return 0;
+		}
+		else if(this.partA == null && this.partB != null){
+			return 1;
+		}
+		else if(this.partA != null && this.partB == null){
+			return 2;
+		}
+		else{
+			return 3;
+		}
 	}
 }
 
